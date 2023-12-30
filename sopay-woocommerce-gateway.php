@@ -3,13 +3,13 @@
 /**
  *
  * Plugin Name:       Sopay Payment Gateway for WooCommerce
- * Plugin URI:        
+ * Plugin URI:        https://www.soleaspay.com
  * Description:       Sopay Payment Gateway for WooCommerce allows you to easily integrate the SoleasPay online payment platform into your WooCommerce store. It provides your customers with the ability to carry out financial transactions easily, securely and conveniently. Using this plugin, you can offer multiple payment options such as credit cards, Orange Money, PayPal, and many others.
  * Version:           1.0
  * Author:            Mysoleas
  * Author URI:        https://www.mysoleas.com
- * License:           GPLv3 or later
- * License URI:       https://www.gnu.org/licenses/gpl-3.0.html  
+ * License:           GPLv2 or later
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       sopay
  */
 
