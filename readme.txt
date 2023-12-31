@@ -1,4 +1,4 @@
-=== Sopay Payment Gateway for WooCommerce ===
+=== Soleaspay Payment Gateway for WooCommerce ===
 Contributors: Mysoleas
 Tags: woocommerce, payment gateway, sopay,soleaspay, orange money, mtn mobile money, perfect money, paypal money, express union cm, bitcoin, dogecoin, xaf, usd, eur.
 Donate link: https://www.soleaspay.com
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 == Description ==
-Sopay Payment Gateway for WooCommerce allows you to easily integrate the Sopay online payment platform into your WooCommerce store. 
+Soleaspay Payment Gateway for WooCommerce allows you to easily integrate the Soleaspay online payment platform into your WooCommerce store. 
 It provides your customers with the ability to carry out financial transactions easily, securely and conveniently. 
 Using this plugin, you can offer multiple payment options such as credit cards, Orange Money, PayPal, and many others. 
 
@@ -19,7 +19,7 @@ Using this plugin, you can offer multiple payment options such as credit cards, 
 == Installation ==
 1. From Dashboard ( WordPress admin ) 
 * Go to Plugins -> Add New
-* Search for ‘Sopay Payment Gateway for woocommerce’
+* Search for ‘Soleaspay Payment Gateway for woocommerce’
 * Click on Install Now
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Go to WooCommerce settings and configure the Sopay payment gateway.
