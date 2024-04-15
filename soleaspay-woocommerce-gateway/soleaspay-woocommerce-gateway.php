@@ -42,7 +42,7 @@ if(!defined('ABSPATH')) exit;
 define('SOLEASPAY_NAME', 'soleaspay');
 
 /**
- * WC SolasPay Payment Gateway Plugin class
+ * WC SoleasPay Payment Gateway Plugin class
  *
  * @class WC_Soleaspay_Payment
  */

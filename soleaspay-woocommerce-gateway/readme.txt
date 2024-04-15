@@ -9,7 +9,7 @@ Requires PHP: 8.1
 Stable tag: 1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Privacy Policy: https://soleaspay.com/home/terms 
+Privacy Policy: https://soleaspay.com/home/terms
                 https://soleaspay.com/home/Privacy
                  
 

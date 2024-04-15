@@ -69,8 +69,10 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		$this->icon = WC_Soleaspay_Payment::plugin_url()."/assets/frontend/images/soleaspay.jpg";
 		$this->has_fields = false;
 		$this->title = 'SoleasPay';
-		$this->method_title = __('SoleasPay Payment Gateway for Woocommerce', 'wc-soleaspay-gateway');
-		$this->method_description = __('SoleasPay method description', 'wc-soleaspay-gateway');
+		$this->method_title = __('SoleasPay Payment Gateway for Woocommerce ', 'wc-soleaspay-gateway');
+		$this->method_description = __('SoleasPay Payment Gateway for WooCommerce is a plugin that allows you to sell wherever your customers are.
+		Offer your customers an intuitive payment experience and let them pay ou the way they want by
+		Orange Money, MTN Mobile Money, Express Union, VISA, PayPal, MasterCard, Perfect Money or bitCoin', 'wc-soleaspay-gateway');
 
 		/** 
 		 *Initialize the payment gateway settings
@@ -160,7 +162,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 				'title' => __('Description', 'wc-soleaspay-gateway'),
 				'type' => 'textarea',
 				'description' => __('Payment method description, visible by customers on your checkout page', 'wc-soleaspay-gateway'),
-				'default' => __('Pay safely using Orange Money, MTN Mobile Money, or SoleasPay Wallet', 'wc-soleaspay-gateway'),
+				'default' => __('Pay safely using Orange Money, MTN Mobile Money, PayPal, Perfect Money, master Cart, VISA or BitCoin', 'wc-soleaspay-gateway'),
 				'desc_tip' => true,
 			],
 		];
@@ -255,7 +257,11 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 			$logger['end'] 		= '<-------------------------------------------------------- !!!     End Error      !!! -------------------------------------------------------->';
 			WC_Soleaspay_Payment::soleaspay_write_log($logger);
 
-			wc_add_notice(__("Payment error : {$message}", 'wc-soleaspay-gateway'), 'error');
+			wc_add_notice( 
+				printf(
+					__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+				)
+			);
 			throw new Exception($message);
 		}
 		
@@ -279,7 +285,11 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 				$logger['end'] = '<-------------------------------------------------------- !!!   End Currency Convert Error   !!! -------------------------------------------------------->';
 				WC_Soleaspay_Payment::soleaspay_write_log($logger);
 
-				wc_add_notice(__("Payment error : {$message}", 'wc-soleaspay-gateway'), 'error');
+				wc_add_notice( 
+					printf(
+						__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+					)
+				);
 				throw new Exception($message);
 			}
 
@@ -296,7 +306,11 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 				$logger['end'] 		= '<-------------------------------------------------------- !!!   End Currency Convert Error    !!! -------------------------------------------------------->';
 				WC_Soleaspay_Payment::soleaspay_write_log($logger);
 
-				wc_add_notice(__("Payment error : {$message}", 'wc-soleaspay-gateway'), 'error');
+				wc_add_notice(
+					printf(
+						__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+					)
+				);
 				throw new Exception($message);
 			}
 			$data = $response['data'];
@@ -353,7 +367,11 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
 		if(is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
 			$message = "An Error has occurred. Please try again now or later";
-			$order->add_order_note(__("Soleaspay payment init failed with message: {$message}", 'wc-soleaspay-gateway'));
+			$order->add_order_note(
+				printf(
+					__('Soleaspay payment init failed with message %s.', 'wc-soleaspay-gateway'), $message
+				)
+			);
 			
 			/** 
 			 *write error in the debug file
@@ -365,7 +383,11 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
  			$logger['end']		= '<-------------------------------------------------------- !!!   End Error   !!! -------------------------------------------------------->';
 			WC_Soleaspay_Payment::soleaspay_write_log($logger);
 
-			wc_add_notice(__("Payment error : {$message}", 'wc-soleaspay-gateway'), 'error');
+			wc_add_notice( 
+				printf(
+					__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+				)
+			);
 			throw new Exception($message);
 		}
 
