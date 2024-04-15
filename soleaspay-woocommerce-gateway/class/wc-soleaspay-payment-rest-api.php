@@ -99,7 +99,9 @@ final class WC_Soleaspay_Payment_Rest_Api
 					} else if ($status === 'failed') {
 						$order->add_order_note(
 							printf(
-								__('Payment failed with message %s.', 'wc-soleaspay-gateway'), $data['data']['message']
+								esc_html__('Payment failed with message %s', 'wc-soleaspay-gateway'), 
+								
+								esc_html($data['data']['message'])
 							)
 						);
 						$order->update_status('failed');

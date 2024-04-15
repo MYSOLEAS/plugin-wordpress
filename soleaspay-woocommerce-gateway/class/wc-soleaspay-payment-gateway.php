@@ -248,7 +248,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		 *Throws an exception when currency is not defined in SOLEASPAY_CURRENCIES
 		 */
 		if (!in_array($woocommerce_currency, self::CURRENCIES)) {
-			$message = "Currency '{$woocommerce_currency}' is not currently supported. Please, try using one of the following: " .self::CURRENCIES;
+ 			$message = "Currency '{$woocommerce_currency}' is not currently supported. Please, try using one of the following: " .self::CURRENCIES;
 
 			$logger['level'] 	= 'error';
 			$logger['title']	= 'Currency Error';
@@ -259,7 +259,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
 			wc_add_notice( 
 				printf(
-					__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+					esc_html__('Payment error %s', 'wc-soleaspay-gateway'), 
+					
+					esc_html($message)
 				)
 			);
 			throw new Exception($message);
@@ -268,7 +270,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		if ($currency !== $woocommerce_currency) {
 			$uri_converter = add_query_arg([
 				'amount' => $amount,
-				'from' => $woocommerce_currency,
+ 				'from' => $woocommerce_currency,
 				'to' => $currency
 			], "https://soleaspay.com/api/convert");
 			$request_convert = wp_remote_get($uri_converter, [
@@ -287,7 +289,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
 				wc_add_notice( 
 					printf(
-						__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+						esc_html__('Payment error %s', 'wc-soleaspay-gateway'), 
+						
+						esc_html($message)
 					)
 				);
 				throw new Exception($message);
@@ -308,7 +312,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
 				wc_add_notice(
 					printf(
-						__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+						esc_html__('Payment error %s', 'wc-soleaspay-gateway'), 
+						
+						esc_html($message)
 					)
 				);
 				throw new Exception($message);
@@ -369,7 +375,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 			$message = "An Error has occurred. Please try again now or later";
 			$order->add_order_note(
 				printf(
-					__('Soleaspay payment init failed with message %s.', 'wc-soleaspay-gateway'), $message
+					esc_html__('Soleaspay payment init failed with message %s', 'wc-soleaspay-gateway'), 
+					
+					esc_html($message)
 				)
 			);
 			
@@ -385,7 +393,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
 			wc_add_notice( 
 				printf(
-					__('Payment error %s.', 'wc-soleaspay-gateway'), $message
+					esc_html__('Payment error %s', 'wc-soleaspay-gateway'), 
+					
+					esc_html($message)
 				)
 			);
 			throw new Exception($message);
