@@ -15,7 +15,7 @@ Privacy Policy: https://soleaspay.com/home/terms
 
 == Description ==
 
-SoleasPay Gateway for WooCommerce plugin is a simple and secure payment gateway for your WooCommerce online store. It allows your customers to pay for their purchases with confidence ensuring a payment process is secure and complies with the strictest security standards, providing both convenience and peace of mind to your customers.
+Our plugin is a simple and reliable payment gateway for your WooCommerce online store. It allows all your customers to pay for their purchases with confidence and ease, ensuring a secure payment process that complies with the strictest security standards, providing both convenience and peace of mind to your customers.
 
 
 == Installation ==
