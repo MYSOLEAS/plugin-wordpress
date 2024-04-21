@@ -1,6 +1,6 @@
 === SoleasPay payment gateway for WooCommerce ===
 
-Contributors: mysoleas, brendamysoleas
+Contributors: mysoleas, brendamysoleas, mekotseu
 Tags: woocommerce, payment gateway, soleaspay, orange money, xaf.
 Donate link: https://www.soleaspay.com
 Requires at least: 6.4
@@ -12,6 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Privacy Policy: https://soleaspay.com/home/terms
                 https://soleaspay.com/home/Privacy
                  
+Accept online payments securely with SoleasPay Gateway for WooCommerce. Easy to install and configure
 
 == Description ==
 
