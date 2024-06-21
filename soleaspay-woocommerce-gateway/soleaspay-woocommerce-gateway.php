@@ -3,13 +3,13 @@
  * SoleasPay Payment Gateway for WooCommerce
  *
  * @package           		Soleaspay
- * @since					1.0
+ * @since					1.2
  * 
  * @wordpress-plugin
  * Plugin Name:       		SoleasPay Payment Gateway for WooCommerce
  * Plugin URI:        		https://www.SoleasPay.com
  * Description:       		SoleasPay - Payment gateway for WooCommerce allows you to easily integrate the SoleasPay online payment platform into your WooCommerce store. It provides your customers with the ability to carry out financial transactions easily, securely and conveniently. Using this plugin, you can offer multiple payment options such as credit cards, Orange Money, PayPal, and many others.
- * Version:           		1.0
+ * Version:           		1.2
  * 
  * Author:            		Mysoleas
  * Author URI:        		https://www.mysoleas.com

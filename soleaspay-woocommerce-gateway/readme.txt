@@ -1,22 +1,21 @@
 === SoleasPay payment gateway for WooCommerce ===
 
-Contributors: mysoleas, brendamysoleas, mekotseu
-Tags: woocommerce, payment gateway, soleaspay, orange money, xaf.
+Contributors: mysoleas, brendamysoleas
+Tags: woocommerce, payment gateway, soleaspay,orange money, mtn mobile money, perfect money, paypal money, express union cm, bitcoin, dogecoin, xaf, usd, eur.
 Donate link: https://www.soleaspay.com
 Requires at least: 6.4
 Tested up to: 6.4 
 Requires PHP: 8.1 
-Stable tag: 1.0
+Stable tag: 1.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Privacy Policy: https://soleaspay.com/home/terms
                 https://soleaspay.com/home/Privacy
                  
-Accept online payments securely with SoleasPay Gateway for WooCommerce. Easy to install and configure
 
 == Description ==
 
-Our plugin is a simple and reliable payment gateway for your WooCommerce online store. It allows all your customers to pay for their purchases with confidence and ease, ensuring a secure payment process that complies with the strictest security standards, providing both convenience and peace of mind to your customers.
+SoleasPay - Payment gateway for WooCommerce
 
 
 == Installation ==
@@ -46,11 +45,19 @@ Yes, you can find the documentation on how to use this plugin on [https://github
 
 
 == Changelog ==
+
+= 1.1 June 20, 2024 =
+- Updated Checkout page UI to show clearer sender and receiver information
+- Updated Woocommerce and Wordpress compatibility
  
+= 1.2 June 21, 2024 =
+- Updated how payment page redirection works on user site
+- Cart management system update
+- Updated Woocommerce and Wordpress compatibility
 
 == Upgrade Notice ==
 
-= 1.0 =
+= 1.2 =
 
 * This is the initial release of the SoleasPay payment gateway for WooCommerce.
 

@@ -5,7 +5,7 @@
  *
  * @author  Soleaspay <info@soleaspay.com>
  * @package Soleaspay\Payment_Endpoint
- * @since   1.0
+ * @since   1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * and redirect client into the checkout received order page
  * 
  * @class WC_Soleaspay_Payment_Rest_Api
- * @version 1.0
+ * @version 1.2
  */
 final class WC_Soleaspay_Payment_Rest_Api
 {
@@ -54,13 +54,12 @@ final class WC_Soleaspay_Payment_Rest_Api
 		$soleaspay_gateway_endpoint_setting = WC()->payment_gateways()->get_available_payment_gateways()['soleaspay']->settings['rest_api_namespace'];
 		$endpoint_url = $request->get_param('endpoint_url');
 		$is_endpoint = explode('response/', $soleaspay_gateway_endpoint_setting)[1] === $endpoint_url;
-		
 		if(stristr($request->get_method(), "GET") && $is_endpoint) {
 			$key = $request->get_param('key');
 			$soleaspay_data_request = urldecode($request->get_param('soleaspay_data'));
 
 			if ( empty($soleaspay_data_request) || json_decode( $soleaspay_data_request ) === null || wc_get_order_id_by_order_key($key) === 0)
-				return new WP_REST_Response("Bad Request !!", 403);
+			    return new WP_REST_Response("Bad Request !!", 403);
 
 			$soleaspay_data = json_decode($soleaspay_data_request, true);
 
@@ -68,14 +67,25 @@ final class WC_Soleaspay_Payment_Rest_Api
 				'success' => ['status','currency', 'amount', 'ref', 'payId'],
 				'failure' => ['success', 'message']
 			];
-
+        
+			
 			$data = $this->soleaspay_check_data($keys, $soleaspay_data);
 			
-			if(!$data)
-				return new WP_REST_Response("Unknown application", 403);
-
+			if(!$data){
+			    return new WP_REST_Response("Unknown application", 403);
+			}
 			$order = wc_get_order(wc_get_order_id_by_order_key($key));
-			$status =$data['status'];
+			$status = $data['status'];
+			
+			// Initialiser la session WooCommerce si nécessaire
+            if (null === WC()->session) {
+                WC()->session = new WC_Session_Handler();
+                WC()->session->init();
+            }
+			/** 
+    		 *Clear the cart
+    		 */
+    		WC()->cart->empty_cart();
 			if($order && $status) {
 				if (!in_array($order->get_status(), ['completed'], true)) {
 					$logger = [];
@@ -90,22 +100,10 @@ final class WC_Soleaspay_Payment_Rest_Api
 							'data' => $data['data']
 						];
 
-						$logger['level'] 		= 'info';
-						$logger['title']	= 'Payment Completed Successfully';
-						$logger['start'] 	= '<-------------------------------------------------------- !!! Payment Success !!! -------------------------------------------------------->';
-						$logger['content'] 	= $message;
-						$logger['end'] 		= '<-------------------------------------------------------- !!!   End Payment   !!! -------------------------------------------------------->';
-
+						
 					} else if ($status === 'failed') {
-						$order->add_order_note(
-							printf(
-								esc_html__('Payment failed with message %s', 'wc-soleaspay-gateway'), 
-								
-								esc_html($data['data']['message'])
-							)
-						);
+						$order->add_order_note(__('Payment Failled with : '.$data['data']['message'], 'wc-soleaspay-gateway'));
 						$order->update_status('failed');
-
 						$message = [
 							'message' => "Payment failed with Soleaspay",
 							'data' => $data['data']
@@ -116,31 +114,21 @@ final class WC_Soleaspay_Payment_Rest_Api
 						$logger['start'] 	= '<-------------------------------------------------------- !!! Payment Failed  !!! -------------------------------------------------------->';
 						$logger['content'] 	= $message;
 						$logger['end'] 		= '<-------------------------------------------------------- !!!   End Payment   !!! -------------------------------------------------------->';
+						WC_Soleaspay_Payment::soleaspay_write_log($logger);
 					}
-					$logger['context'] = [
-						'order_details' => [
-							'id' => $base_data['id'],
-							'description' => implode(',', array_map(function(WC_Order_Item $item){return $item->get_name();}, $order->get_items())),
-							'amount' => $base_data['total'],
-							'currency' => $base_data['currency'],
-							'payment_method' => $base_data['payment_method'],
-							'transaction_id' => $base_data['transaction_id'],
-							'status' => $base_data['status'],
-						]
-					];
-					WC_Soleaspay_Payment::soleaspay_write_log($logger);
+					wp_safe_redirect($order->get_checkout_order_received_url(), 301);
+                    exit;
 				}
-				wp_safe_redirect($order->get_checkout_order_received_url(), 301);
 			} else {
+			    
 				/**
 				 *perform message with nonce
 				 */
 				wp_safe_redirect(wc_get_cart_url(), 301);
+				exit;
 			}
-			exit;
 		}
-
-		return new WP_REST_Response('Access denied !!', 404);
+        return new WP_REST_Response('Access denied !!', 404);
 	}
 
 	/**

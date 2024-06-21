@@ -4,7 +4,7 @@
  *
  * @author   Soleaspay <info@soleaspay.com>
  * @package  Soleaspay\Payment_Gateway
- * @since    1.0
+ * @since    1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @class    WC_Soleaspay_Payment_Gateway
  * @extends  WC_Payment_Gateway
- * @version  1.0
+ * @version  1.2
  */
 class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 
@@ -23,7 +23,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 	 * 
 	 * @var array
 	 */
-	const CURRENCIES = ['XAF', 'EUR', 'USD'];
+	const CURRENCIES = ['XAF','XOF', 'EUR', 'USD'];
 
 	/**
 	 * API URI for Soleaspay Payment
@@ -72,7 +72,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		$this->method_title = __('SoleasPay Payment Gateway for Woocommerce ', 'wc-soleaspay-gateway');
 		$this->method_description = __('SoleasPay Payment Gateway for WooCommerce is a plugin that allows you to sell wherever your customers are.
 		Offer your customers an intuitive payment experience and let them pay ou the way they want by
-		Orange Money, MTN Mobile Money, Express Union, VISA, PayPal, MasterCard, Perfect Money or bitCoin', 'wc-soleaspay-gateway');
+		Orange Money, MTN Mobile Money, Express Union, VISA, PayPal, MasterCard, Perfect Money or Wave', 'wc-soleaspay-gateway');
 
 		/** 
 		 *Initialize the payment gateway settings
@@ -153,6 +153,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 				'default' => 'XAF',
 				'options' => [
 					'XAF' => __('Franc CFA (FC-FA)', 'wc-soleaspay-gateway'),
+					'XOF' => __('Franc CFA (FC-FA)', 'wc-soleaspay-gateway'),
 					'EUR' => __('Euro (€)', 'wc-soleaspay-gateway'),
 					'USD' => __('Dollar ($)', 'wc-soleaspay-gateway'),
 				],
@@ -162,7 +163,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 				'title' => __('Description', 'wc-soleaspay-gateway'),
 				'type' => 'textarea',
 				'description' => __('Payment method description, visible by customers on your checkout page', 'wc-soleaspay-gateway'),
-				'default' => __('Pay safely using Orange Money, MTN Mobile Money, PayPal, Perfect Money, master Cart, VISA or BitCoin', 'wc-soleaspay-gateway'),
+				'default' => __('Pay safely using Orange Money, MTN Mobile Money, PayPal, Perfect Money, MasterCard, VISA or Wave', 'wc-soleaspay-gateway'),
 				'desc_tip' => true,
 			],
 		];
@@ -248,7 +249,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		 *Throws an exception when currency is not defined in SOLEASPAY_CURRENCIES
 		 */
 		if (!in_array($woocommerce_currency, self::CURRENCIES)) {
- 			$message = "Currency '{$woocommerce_currency}' is not currently supported. Please, try using one of the following: " .self::CURRENCIES;
+			$message = "Currency '{$woocommerce_currency}' is not currently supported. Please, try using one of the following: " .self::CURRENCIES;
 
 			$logger['level'] 	= 'error';
 			$logger['title']	= 'Currency Error';
@@ -270,7 +271,7 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 		if ($currency !== $woocommerce_currency) {
 			$uri_converter = add_query_arg([
 				'amount' => $amount,
- 				'from' => $woocommerce_currency,
+				'from' => $woocommerce_currency,
 				'to' => $currency
 			], "https://soleaspay.com/api/convert");
 			$request_convert = wp_remote_get($uri_converter, [
@@ -365,10 +366,9 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 			'shopName' 		=> $this->get_shopName(),
 		];
 		$request = wp_remote_post(self::API_URI, [
-			'body'        => json_encode($options),
-			"sslverify"   => false,
+			'body'        => ($options),
+			"sslverify"   => true,
 			'timeout'     => '15',
-			'headers'     => ['Content-Type' => 'application/json']
 		]);
 
 		if(is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
@@ -401,38 +401,14 @@ class WC_Soleaspay_Payment_Gateway extends WC_Payment_Gateway {
 			throw new Exception($message);
 		}
 
-		$order->payment_complete();
-    	$order->add_order_note(__("Payment is processing...", 'wc-soleaspay-gateway'));
-	
-		$logger['level']	= 'info';
-		$logger['title']	= 'Payment is Processing';
-		$logger['start'] 	= '<---------------------------------------------- !!!   Payment is Processing ...   !!! ---------------------------------------------->';
-		$logger['content']  = ['order_process_type' => $order->get_status(), 'data' => $options];
-		$logger['end']		= '<---------------------------------------------- !!!       End Processing ...      !!! ---------------------------------------------->';
-		$base_data = $order->get_base_data();
-		$logger['context']  = [
-			'order_details' => [
-				'id' => $base_data['id'],
-				'description' => $order_description,
-				'amount' => $base_data['total'],
-				'currency' => $base_data['currency'],
-				'payment_method' => $base_data['payment_method'],
-				'transaction_id' => $base_data['transaction_id'],
-				'status' => $base_data['status']
-			]
-		];
-		WC_Soleaspay_Payment::soleaspay_write_log($logger);
-
-		/** 
-		 *Clear the cart
-		 */
-		WC()->cart->empty_cart();
-
+		$order->add_order_note(__("Payment is processing...", 'wc-soleaspay-gateway'));
+		
 		/** 
 		 *Return the Response from page redirect URL
 		 */
 		return [
 			'result' => 'success',
+			'redirect' => '',
 			'soleaspay_response_data' => $this->soleaspay_generate_form($options),
 		];
 	}

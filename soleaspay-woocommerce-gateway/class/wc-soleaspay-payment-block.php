@@ -6,7 +6,7 @@ use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodTyp
  *
  * @author  Soleaspay <info@soleaspay.com>
  * @package Soleaspay\Payment_Blocks
- * @since   1.0
+ * @since   1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Soleaspay Gateway Payment Class for integration Block in view
  * 
  * @class WC_Soleaspay_Payment_Block
- * @version 1.0
+ * @version 1.2
  */
 final class WC_Soleaspay_Payment_Block extends AbstractPaymentMethodType
 {
@@ -63,7 +63,7 @@ final class WC_Soleaspay_Payment_Block extends AbstractPaymentMethodType
 	public function get_payment_method_script_handles(): array
 	{
 		$script_asset_path = WC_Soleaspay_Payment::plugin_abspath()."/assets/frontend/js/block.asset.php";
-		$assets = file_exists($script_asset_path) ? require $script_asset_path : ['dependencies' => [], 'version' => '1.0.0'];
+		$assets = file_exists($script_asset_path) ? require $script_asset_path : ['dependencies' => [], 'version' => '1.2'];
 		$script_url = WC_Soleaspay_Payment::plugin_url()."/assets/frontend/js/block.js";
 		wp_register_script(
 			'wc-soleaspay-payment-block',
